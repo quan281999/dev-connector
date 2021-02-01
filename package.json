@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/quan281999/dev-connector#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.3",
     "express": "^4.17.1",
