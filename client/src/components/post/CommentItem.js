@@ -18,17 +18,21 @@ const CommentItem = ({
         <h4>{name}</h4>
       </Link>
     </div>
-    <div>
+    <div style={{position:"relative"}}>
       <p className="my-1">{text}</p>
       <p className="post-date">Posted on {formatDate(date)}</p>
       {!auth.loading && user === auth.user._id && (
-        <button
-          onClick={() => deleteComment(postId, _id)}
-          type="button"
-          className="btn btn-danger"
-        >
-          <i className="fas fa-times" />
-        </button>
+        <i 
+        className='fa fa-times' 
+        style={{
+          color: "var(--danger-color)", 
+          cursor:"pointer", 
+          position:"absolute", 
+          top:"50%", 
+          right:"0", 
+          transform: "translateY(-50%)", 
+          fontSize: "1.5rem"}} 
+        onClick={() => deleteComment(postId, _id)}/>
       )}
     </div>
   </div>

@@ -12,9 +12,9 @@ const Posts = ({ getPosts, post: { posts } }) => {
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Posts</h1>
+      <h1 className="large text-primary">Blogs</h1>
       <p className="lead">
-        <i className="fas fa-user" /> Welcome to the community
+        <i className="fa fa-globe" /> Become a part of the developer community
       </p>
       <PostForm />
       <div className="posts">

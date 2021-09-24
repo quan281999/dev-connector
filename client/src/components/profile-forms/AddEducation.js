@@ -30,6 +30,9 @@ const AddEducation = ({ addEducation, history }) => {
 
   return (
     <Fragment>
+      <Link className="btn btn-secondary my-1" to="/dashboard">
+        Go Back
+      </Link>
       <h1 className="large text-primary">Add Your Education</h1>
       <p className="lead">
         <i className="fas fa-code-branch" /> Add any school or bootcamp that you
@@ -109,9 +112,6 @@ const AddEducation = ({ addEducation, history }) => {
           />
         </div>
         <input type="submit" className="btn btn-primary my-1" />
-        <Link className="btn btn-light my-1" to="/dashboard">
-          Go Back
-        </Link>
       </form>
     </Fragment>
   );

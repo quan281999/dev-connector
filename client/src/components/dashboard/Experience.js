@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deleteExperience } from '../../actions/profile';
@@ -13,19 +14,22 @@ const Experience = ({ experience, deleteExperience }) => {
         {formatDate(exp.from)} - {exp.to ? formatDate(exp.to) : 'Now'}
       </td>
       <td>
-        <button
-          onClick={() => deleteExperience(exp._id)}
-          className="btn btn-danger"
-        >
-          Delete
-        </button>
+        <i 
+          className='fa fa-times' 
+          style={{color: "var(--danger-color)", cursor:"pointer"}} 
+          onClick={() => deleteExperience(exp._id)}/>
       </td>
     </tr>
   ));
 
   return (
     <Fragment>
-      <h2 className="my-2">Experience Credentials</h2>
+      <h2 className="my-2">
+        Work Experience
+        <Link to='/add-experience' style={{marginLeft: "1rem"}}>
+          <i className='fas fa-plus-circle' />
+        </Link>
+      </h2>
       <table className="table">
         <thead>
           <tr>
