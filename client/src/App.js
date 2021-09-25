@@ -1,9 +1,11 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Routes from './components/routing/Routes';
 import { LOGOUT } from './actions/types';
+import { SnackbarUtilsConfigurator } from './utils/snackbar'
 
 // Redux
 import { Provider } from 'react-redux';
@@ -30,13 +32,14 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <Fragment>
+        <SnackbarProvider maxSnack={3}>
+          <SnackbarUtilsConfigurator />
           <Navbar />
           <Switch>
             <Route exact path="/" component={Landing} />
             <Route component={Routes} />
           </Switch>
-        </Fragment>
+        </SnackbarProvider>
       </Router>
     </Provider>
   );

@@ -1,5 +1,6 @@
 const axios = require('axios');
 const config = require('config');
+const { validationResult } = require('express-validator');
 
 const Profile = require('../models/Profile');
 

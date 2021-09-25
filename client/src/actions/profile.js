@@ -1,5 +1,5 @@
 import api from '../utils/api';
-import { setAlert } from './alert';
+import SnackbarUtils from '../utils/snackbar';
 
 import {
   GET_PROFILE,
@@ -93,8 +93,8 @@ export const createProfile = (formData, history, edit = false) => async (
       payload: res.data
     });
 
-    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
-
+    SnackbarUtils.success(edit ? 'PROFILE UPDATED' : 'PROFILE CREATED');
+    
     if (!edit) {
       history.push('/dashboard');
     }
@@ -102,7 +102,7 @@ export const createProfile = (formData, history, edit = false) => async (
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => SnackbarUtils.error(error.msg.toUpperCase()));
     }
 
     dispatch({
@@ -122,14 +122,14 @@ export const addExperience = (formData, history) => async (dispatch) => {
       payload: res.data
     });
 
-    dispatch(setAlert('Experience Added', 'success'));
+    SnackbarUtils.success('EXPERIENCE ADDED');
 
     history.push('/dashboard');
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => SnackbarUtils.error(error.msg.toUpperCase()));
     }
 
     dispatch({
@@ -149,14 +149,14 @@ export const addEducation = (formData, history) => async (dispatch) => {
       payload: res.data
     });
 
-    dispatch(setAlert('Education Added', 'success'));
+    SnackbarUtils.success('EDUCATION ADDED');
 
     history.push('/dashboard');
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) =>  SnackbarUtils.error(error.msg.toUpperCase()));
     }
 
     dispatch({
@@ -176,7 +176,7 @@ export const deleteExperience = (id) => async (dispatch) => {
       payload: res.data
     });
 
-    dispatch(setAlert('Experience Removed', 'success'));
+    SnackbarUtils.success('EXPERIENCE REMOVED');
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
@@ -195,7 +195,7 @@ export const deleteEducation = (id) => async (dispatch) => {
       payload: res.data
     });
 
-    dispatch(setAlert('Education Removed', 'success'));
+    SnackbarUtils.success('EDUCATION REMOVE');
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
@@ -213,7 +213,7 @@ export const deleteAccount = () => async (dispatch) => {
       dispatch({ type: CLEAR_PROFILE });
       dispatch({ type: ACCOUNT_DELETED });
 
-      dispatch(setAlert('Your account has been permanently deleted'));
+      SnackbarUtils.success('YOUR ACCOUNT HAS BEEN DELETED');
     } catch (err) {
       dispatch({
         type: PROFILE_ERROR,

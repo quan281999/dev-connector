@@ -1,5 +1,5 @@
 import api from '../utils/api';
-import { setAlert } from './alert';
+import SnackbarUtils from '../utils/snackbar';
 import {
   GET_POSTS,
   POST_ERROR,
@@ -72,7 +72,8 @@ export const deletePost = id => async dispatch => {
       payload: id
     });
 
-    dispatch(setAlert('Post Removed', 'success'));
+    SnackbarUtils.success('POST REMOVED');
+    
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -91,7 +92,8 @@ export const addPost = formData => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert('Post Created', 'success'));
+    SnackbarUtils.success('POST CREATED');
+
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -127,7 +129,8 @@ export const addComment = (postId, formData) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert('Comment Added', 'success'));
+    SnackbarUtils.success('COMMENT ADDED');
+
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -146,7 +149,8 @@ export const deleteComment = (postId, commentId) => async dispatch => {
       payload: commentId
     });
 
-    dispatch(setAlert('Comment Removed', 'success'));
+    SnackbarUtils.success('COMMENT REMOVED');
+
   } catch (err) {
     dispatch({
       type: POST_ERROR,

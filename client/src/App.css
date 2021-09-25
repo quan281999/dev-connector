@@ -4,7 +4,6 @@
   --dark-color: #796878;
   --light-color: #F2F2F3;
   --danger-color: #C91D2B;
-  --success-color: #34B249;
 }
 
 * {
@@ -145,6 +144,7 @@ input {
   transition: opacity 0.2s ease-in;
   outline: none;
   border-radius: 0.3rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .badge {
@@ -158,27 +158,14 @@ input {
   border-radius: 0.3rem;
 }
 
-.alert {
-  position: fixed;
-  bottom: 0;
-  left: 1rem;
-  padding: 0.8rem;
-  margin: 1rem 0;
-  opacity: 0.9;
-  border-radius: 0.3rem;
-}
-
-
 .btn-primary,
-.bg-primary,
-.alert-primary {
+.bg-primary {
   background: var(--primary-color);
   color: #fff;
 }
 
 .btn-secondary,
-.bg-light,
-.alert-light {
+.bg-light {
   background: var(--light-color);
   border: 2px solid var(--primary-color);
   color: #333;
@@ -190,23 +177,14 @@ input {
 }
 
 .btn-danger,
-.bg-danger,
-.alert-danger {
+.bg-danger {
   background: #FFCBCB;
   border: 2px solid var(--danger-color);
   color: var(--danger-color);
 }
-
-.alert-success {
-  background: #D0F0C0;
-  border: 2px solid var(--success-color);
-  color: var(--success-color);
-}
-
 .btn-white,
 .bg-white,
-.badge-white,
-.alert-white {
+.badge-white {
   background: #fff;
   color: #333;
   border: #ccc solid 1px;
@@ -315,7 +293,7 @@ button {
   z-index: 1;
   width: 100%;
   top: 0;
-  border-bottom: solid 1px var(--primary-color);
+  border-bottom: solid 0.2rem var(--primary-color);
   opacity: 0.9;
 }
 
