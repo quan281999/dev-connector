@@ -12,52 +12,62 @@ const PostItem = ({
   auth,
   post: { _id, text, name, avatar, user, likes, comments, date },
   showActions
-}) => (
-  <div className="post bg-white p-1 my-1">
-    <div>
-      <Link to={`/profile/${user}`}>
-        <img className="round-img" src={avatar} alt="" />
-        <h4>{name}</h4>
-      </Link>
-    </div>
-    <div>
-      <p className="my-1">{text}</p>
-      <p className="post-date">Posted on {formatDate(date)}</p>
+}) => {
+  let didLike = false;
+  likes.forEach((like) => {
+    if (like.user === auth.user._id) {
+      didLike = true;
+    }
+  });
+  
+  const onLike = () => {
+    if (didLike) {
+      removeLike(_id);
+    } else {
+      addLike(_id);
+    }
+  };
+  
+  return (
+    <div className="post bg-white p-1 my-1">
+      <div>
+        <Link to={`/profile/${user}`}>
+          <img className="round-img" src={avatar} alt="" />
+          <h4>{name}</h4>
+        </Link>
+      </div>
+      <div>
+        {text.split('\n').map((paragraph, index) => <p className="my" key={index}>{paragraph}</p>)}
+        <p className="post-date">Posted on {formatDate(date)}</p>
 
-      {showActions && (
-        <Fragment>
-          <button
-            onClick={() => addLike(_id)}
-            type="button"
-            className="btn btn-secondary"
-          >
-            <i className="fas fa-thumbs-up" />{' '}
-            <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
-          </button>
-          <button
-            onClick={() => removeLike(_id)}
-            type="button"
-            className="btn btn-secondary"
-          >
-            <i className="fas fa-thumbs-down" />
-          </button>
-          <Link to={`/posts/${_id}`} className="btn btn-primary">
-            Discussion
-          </Link>
-          {!auth.loading && user === auth.user._id && (
+        {showActions && (
+          <Fragment>
             <button
-              onClick={() => deletePost(_id)}
+              onClick={onLike}
               type="button"
-              className="btn btn-danger"
+              className="btn btn-secondary"
             >
-              <i className="fas fa-times" />
+              <i className={didLike ? 'fa fa-thumbs-up' : 'fa fa-thumbs-o-up'}/>{' '}
+              <span>{likes.length}</span>
             </button>
-          )}
-        </Fragment>
-      )}
+            <Link to={`/posts/${_id}`} className="btn btn-primary">
+              Discussion
+            </Link>
+            {!auth.loading && user === auth.user._id && (
+              <button
+                onClick={() => deletePost(_id)}
+                type="button"
+                className="btn btn-danger"
+              >
+                <i className="fas fa-times" />
+              </button>
+            )}
+          </Fragment>
+        )}
+      </div>
     </div>
-  </div>
-);
+  )
+};
 
 PostItem.defaultProps = {
   showActions: true

@@ -5,6 +5,7 @@ import { addPost } from '../../actions/post';
 
 const PostForm = ({ addPost }) => {
   const [text, setText] = useState('');
+  console.log(text);
 
   return (
     <div className='post-form'>
