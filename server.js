@@ -7,6 +7,9 @@ const app = express();
 // Connect Database
 connectDB();
 
+// Enable CORS
+app.use(cors())
+
 // Init Middleware
 app.use(express.json({ extended: false }));
 
