@@ -1,22 +1,26 @@
-const axios = require('axios');
-const config = require('config');
-const { validationResult } = require('express-validator');
+const axios = require("axios");
+const config = require("config");
+const { validationResult } = require("express-validator");
 
-const Profile = require('../models/Profile');
+const Profile = require("../models/Profile");
+const User = require("../models/User");
 
 // Get the profile of current user
 exports.getCurrentProfile = async (req, res) => {
   try {
-    const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'avatar']);
+    const profile = await Profile.findOne({ user: req.user.id }).populate(
+      "user",
+      ["name", "avatar"]
+    );
 
     if (!profile) {
-      return res.status(400).json({ msg: 'There is no profile for this user' });
+      return res.status(400).json({ msg: "There is no profile for this user" });
     }
 
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('Server Error');
+    return res.status(500).send("Server Error");
   }
 };
 
@@ -25,7 +29,7 @@ exports.createProfile = async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() })
+    return res.status(400).json({ errors: errors.array() });
   }
 
   const {
@@ -53,7 +57,7 @@ exports.createProfile = async (req, res) => {
   if (status) profileFields.status = status;
   if (githubusername) profileFields.githubusername = githubusername;
   if (skills) {
-    profileFields.skills = skills.split(',').map(skill => skill.trim());
+    profileFields.skills = skills.split(",").map((skill) => skill.trim());
   }
 
   profileFields.social = {};
@@ -68,7 +72,11 @@ exports.createProfile = async (req, res) => {
 
     if (profile) {
       // Update
-      profile = await Profile.findOneAndUpdate({ user: req.user.id }, { $set: profileFields }, { new: true });
+      profile = await Profile.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: profileFields },
+        { new: true }
+      );
 
       return res.json(profile);
     }
@@ -81,19 +89,29 @@ exports.createProfile = async (req, res) => {
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('Server Error');
+    return res.status(500).send("Server Error");
   }
 };
 
 // Get all profiles
 exports.getProfiles = async (req, res) => {
   try {
-    const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+    let profiles;
+    if (!req.query.search) {
+      profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    } else {
+      const users = await User.find({
+        name: { $regex: req.query.search, $options: "i" },
+      });
+      profiles = await Profile.find({
+        user: users,
+      }).populate("user", ["name", "avatar"]);
+    }
 
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 };
 
@@ -101,20 +119,20 @@ exports.getProfiles = async (req, res) => {
 exports.getProfile = async ({ params: { user_id } }, res) => {
   try {
     const profile = await Profile.findOne({
-      user: user_id
-    }).populate('user', ['name', 'avatar']);
+      user: user_id,
+    }).populate("user", ["name", "avatar"]);
 
-    if (!profile) return res.status(400).json({ msg: 'Profile not found' });
+    if (!profile) return res.status(400).json({ msg: "Profile not found" });
 
     return res.json(profile);
   } catch (err) {
     console.error(err.message);
 
-    if (err.kind == 'ObjectId') {
-      return res.status(400).json({ msg: 'Profile not found' });
+    if (err.kind == "ObjectId") {
+      return res.status(400).json({ msg: "Profile not found" });
     }
 
-    return res.status(500).json({ msg: 'Server error' });
+    return res.status(500).json({ msg: "Server error" });
   }
 };
 
@@ -126,15 +144,7 @@ exports.addExperience = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const {
-    title,
-    company,
-    location,
-    from,
-    to,
-    current,
-    description
-  } = req.body;
+  const { title, company, location, from, to, current, description } = req.body;
 
   const newExp = {
     title,
@@ -143,8 +153,8 @@ exports.addExperience = async (req, res) => {
     from,
     to,
     current,
-    description
-  }
+    description,
+  };
 
   try {
     const profile = await Profile.findOne({ user: req.user.id });
@@ -156,7 +166,7 @@ exports.addExperience = async (req, res) => {
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('Server Error');
+    return res.status(500).send("Server Error");
   }
 };
 
@@ -174,7 +184,7 @@ exports.deleteExperience = async (req, res) => {
     return res.status(200).json(foundProfile);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ msg: 'Server error' });
+    return res.status(500).json({ msg: "Server error" });
   }
 };
 
@@ -196,7 +206,7 @@ exports.addEducation = async (req, res) => {
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('Server Error');
+    return res.status(500).send("Server Error");
   }
 };
 
@@ -214,7 +224,7 @@ exports.deleteEducation = async (req, res) => {
     return res.status(200).json(foundProfile);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ msg: 'Server error' });
+    return res.status(500).json({ msg: "Server error" });
   }
 };
 
@@ -222,10 +232,14 @@ exports.deleteEducation = async (req, res) => {
 exports.getRepos = async (req, res) => {
   try {
     const uri = encodeURI(
-      `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${config.get('githubClientId')}$client_secret=${config.get('githubSecret')}`
+      `https://api.github.com/users/${
+        req.params.username
+      }/repos?per_page=5&sort=created:asc&client_id=${config.get(
+        "githubClientId"
+      )}$client_secret=${config.get("githubSecret")}`
     );
     const headers = {
-      'user-agent': 'node.js',
+      "user-agent": "node.js",
       // Authorization: `token ${config.get('githubSecret')}`
     };
 
@@ -233,6 +247,6 @@ exports.getRepos = async (req, res) => {
     return res.json(gitHubResponse.data);
   } catch (err) {
     console.error(err.message);
-    return res.status(404).json({ msg: 'No Github profile found' });
+    return res.status(404).json({ msg: "No Github profile found" });
   }
 };
