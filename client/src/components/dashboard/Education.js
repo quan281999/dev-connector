@@ -15,7 +15,7 @@ const Education = ({ education, deleteEducation }) => {
       </td>
       <td>
         <i 
-          className='fa fa-times' 
+          className="fa fa-times" 
           style={{color: "var(--danger-color)", cursor:"pointer"}} 
           onClick={() => deleteEducation(edu._id)}/>
       </td>
@@ -26,8 +26,8 @@ const Education = ({ education, deleteEducation }) => {
     <Fragment>
       <h2 className="my-2">
         Education
-        <Link to='/add-education' style={{marginLeft: "1rem"}}>
-          <i className='fas fa-plus-circle' />
+        <Link to="/add-education" style={{marginLeft: "1rem"}}>
+          <i className="fas fa-plus-circle" />
         </Link>
       </h2>
       <table className="table">

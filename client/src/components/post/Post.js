@@ -21,7 +21,7 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
         Go Back
       </Link>
       <PostItem post={post} showActions={false} />
-      <div className='bg-primary p'>
+      <div className="bg-primary p">
         <h3>{post.likes.length} likes - {post.comments.length} comments</h3>
       </div>
       <div className="comments">

@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { debounce } from "lodash";
-import Spinner from "../layout/Spinner";
-import ProfileItem from "./ProfileItem";
-import { getProfiles } from "../../actions/profile";
+import React, { Fragment, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { debounce } from 'lodash';
+import Spinner from '../layout/Spinner';
+import ProfileItem from './ProfileItem';
+import { getProfiles } from '../../actions/profile';
 
 const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   useEffect(() => {
@@ -14,7 +14,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   const search = debounce((e) => {
     const searchTerm = e.target.value;
 
-    if (searchTerm === "") {
+    if (searchTerm === '') {
       getProfiles();
     } else {
       getProfiles(searchTerm);

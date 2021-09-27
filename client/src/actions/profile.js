@@ -1,5 +1,5 @@
-import api from "../utils/api";
-import SnackbarUtils from "../utils/snackbar";
+import api from '../utils/api';
+import SnackbarUtils from '../utils/snackbar';
 
 import {
   GET_PROFILE,
@@ -9,22 +9,22 @@ import {
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
   GET_REPOS,
-  NO_REPOS,
-} from "./types";
+  NO_REPOS
+} from './types';
 
 // Get current users profile
 export const getCurrentProfile = () => async (dispatch) => {
   try {
-    const res = await api.get("/profile/me");
+    const res = await api.get('/profile/me');
 
     dispatch({
       type: GET_PROFILE,
-      payload: res.data,
+      payload: res.data
     });
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
@@ -38,19 +38,19 @@ export const getProfiles =
     try {
       let res;
       if (!search) {
-        res = await api.get("/profile");
+        res = await api.get('/profile');
       } else {
         res = await api.get(`/profile/?search=${search}`);
       }
 
       dispatch({
         type: GET_PROFILES,
-        payload: res.data,
+        payload: res.data
       });
     } catch (err) {
       dispatch({
         type: PROFILE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status },
+        payload: { msg: err.response.statusText, status: err.response.status }
       });
     }
   };
@@ -62,12 +62,12 @@ export const getProfileById = (userId) => async (dispatch) => {
 
     dispatch({
       type: GET_PROFILE,
-      payload: res.data,
+      payload: res.data
     });
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
@@ -79,7 +79,7 @@ export const getGithubRepos = (username) => async (dispatch) => {
 
     dispatch({
       type: GET_REPOS,
-      payload: res.data,
+      payload: res.data
     });
   } catch (err) {
     dispatch({
@@ -93,17 +93,17 @@ export const createProfile =
   (formData, history, edit = false) =>
   async (dispatch) => {
     try {
-      const res = await api.post("/profile", formData);
+      const res = await api.post('/profile', formData);
 
       dispatch({
         type: GET_PROFILE,
-        payload: res.data,
+        payload: res.data
       });
 
-      SnackbarUtils.success(edit ? "PROFILE UPDATED" : "PROFILE CREATED");
+      SnackbarUtils.success(edit ? 'PROFILE UPDATED' : 'PROFILE CREATED');
 
       if (!edit) {
-        history.push("/dashboard");
+        history.push('/dashboard');
       }
     } catch (err) {
       const errors = err.response.data.errors;
@@ -114,7 +114,7 @@ export const createProfile =
 
       dispatch({
         type: PROFILE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status },
+        payload: { msg: err.response.statusText, status: err.response.status }
       });
     }
   };
@@ -122,16 +122,16 @@ export const createProfile =
 // Add Experience
 export const addExperience = (formData, history) => async (dispatch) => {
   try {
-    const res = await api.put("/profile/experience", formData);
+    const res = await api.put('/profile/experience', formData);
 
     dispatch({
       type: UPDATE_PROFILE,
-      payload: res.data,
+      payload: res.data
     });
 
-    SnackbarUtils.success("EXPERIENCE ADDED");
+    SnackbarUtils.success('EXPERIENCE ADDED');
 
-    history.push("/dashboard");
+    history.push('/dashboard');
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -141,7 +141,7 @@ export const addExperience = (formData, history) => async (dispatch) => {
 
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
@@ -149,16 +149,16 @@ export const addExperience = (formData, history) => async (dispatch) => {
 // Add Education
 export const addEducation = (formData, history) => async (dispatch) => {
   try {
-    const res = await api.put("/profile/education", formData);
+    const res = await api.put('/profile/education', formData);
 
     dispatch({
       type: UPDATE_PROFILE,
-      payload: res.data,
+      payload: res.data
     });
 
-    SnackbarUtils.success("EDUCATION ADDED");
+    SnackbarUtils.success('EDUCATION ADDED');
 
-    history.push("/dashboard");
+    history.push('/dashboard');
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -168,7 +168,7 @@ export const addEducation = (formData, history) => async (dispatch) => {
 
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
@@ -180,14 +180,14 @@ export const deleteExperience = (id) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_PROFILE,
-      payload: res.data,
+      payload: res.data
     });
 
-    SnackbarUtils.success("EXPERIENCE REMOVED");
+    SnackbarUtils.success('EXPERIENCE REMOVED');
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
@@ -199,32 +199,32 @@ export const deleteEducation = (id) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_PROFILE,
-      payload: res.data,
+      payload: res.data
     });
 
-    SnackbarUtils.success("EDUCATION REMOVE");
+    SnackbarUtils.success('EDUCATION REMOVE');
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
 
 // Delete account & profile
 export const deleteAccount = () => async (dispatch) => {
-  if (window.confirm("Are you sure? This can NOT be undone!")) {
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
     try {
-      await api.delete("/users");
+      await api.delete('/users');
 
       dispatch({ type: CLEAR_PROFILE });
       dispatch({ type: ACCOUNT_DELETED });
 
-      SnackbarUtils.success("YOUR ACCOUNT HAS BEEN DELETED");
+      SnackbarUtils.success('YOUR ACCOUNT HAS BEEN DELETED');
     } catch (err) {
       dispatch({
         type: PROFILE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status },
+        payload: { msg: err.response.statusText, status: err.response.status }
       });
     }
   }

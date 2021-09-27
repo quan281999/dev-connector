@@ -15,7 +15,7 @@ const Experience = ({ experience, deleteExperience }) => {
       </td>
       <td>
         <i 
-          className='fa fa-times' 
+          className="fa fa-times" 
           style={{color: "var(--danger-color)", cursor:"pointer"}} 
           onClick={() => deleteExperience(exp._id)}/>
       </td>
@@ -26,8 +26,8 @@ const Experience = ({ experience, deleteExperience }) => {
     <Fragment>
       <h2 className="my-2">
         Work Experience
-        <Link to='/add-experience' style={{marginLeft: "1rem"}}>
-          <i className='fas fa-plus-circle' />
+        <Link to="/add-experience" style={{marginLeft: "1rem"}}>
+          <i className="fas fa-plus-circle" />
         </Link>
       </h2>
       <table className="table">

@@ -23,7 +23,7 @@ const CommentItem = ({
       <p className="post-date">Posted on {formatDate(date)}</p>
       {!auth.loading && user === auth.user._id && (
         <i 
-        className='fa fa-times' 
+        className="fa fa-times" 
         style={{
           color: "var(--danger-color)", 
           cursor:"pointer", 
