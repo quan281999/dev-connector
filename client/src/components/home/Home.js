@@ -5,28 +5,28 @@ import PostItem from './PostItem';
 import PostForm from './PostForm';
 import { getPosts } from '../../actions/post';
 
-const Posts = ({ getPosts, post: { posts } }) => {
+const Home = ({ getPosts, post: { posts } }) => {
   useEffect(() => {
     getPosts();
   }, [getPosts]);
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Blogs</h1>
-      <p className="lead">
+      <h1 className="medium text-primary">
         <i className="fa fa-globe" /> Become a part of the developer community
-      </p>
+      </h1>
       <PostForm />
       <div className="posts">
-        {posts.map((post) => (
-          <PostItem key={post._id} post={post} />
-        ))}
+        {posts.map((post) => {
+          return <PostItem key={post._id} post={post} />
+        })}
       </div>
     </Fragment>
   );
 };
 
-Posts.propTypes = {
+Home.propTypes = {
+  isAuthenticated: PropTypes.bool,
   getPosts: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired
 };
@@ -35,4 +35,4 @@ const mapStateToProps = (state) => ({
   post: state.post
 });
 
-export default connect(mapStateToProps, { getPosts })(Posts);
+export default connect(mapStateToProps, { getPosts })(Home);

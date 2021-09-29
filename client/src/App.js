@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
-import Routes from './components/routing/Routes';
+import Routes from './components/routes/Routes';
 import { LOGOUT } from './actions/types';
 import { SnackbarUtilsConfigurator } from './utils/snackbar'
 
@@ -37,6 +37,7 @@ const App = () => {
           <Navbar />
           <Switch>
             <Route exact path="/" component={Landing} />
+            <Route exact path="/landing" component={Landing} />
             <Route component={Routes} />
           </Switch>
         </SnackbarProvider>

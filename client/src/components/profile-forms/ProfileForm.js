@@ -70,13 +70,12 @@ const ProfileForm = ({
 
   return (
     <Fragment>
-      <Link className="btn btn-secondary my-1" to="/dashboard">
+      <Link className="btn btn-secondary my-1" to={`/profile/${profile.user._id}`}>
         Go Back
       </Link>
-      <h1 className="large text-primary">Edit Your Profile</h1>
-      <p className="lead">
+      <h1 className="text-primary">
         <i className="fas fa-user" /> Add some changes to your profile
-      </p>
+      </h1>
       <small>* = required field</small>
       <form className="form" onSubmit={onSubmit}>
         <div className="form-group">

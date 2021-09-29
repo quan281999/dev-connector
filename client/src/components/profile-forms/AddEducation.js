@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEducation } from '../../actions/profile';
 
-const AddEducation = ({ addEducation, history }) => {
+const AddEducation = ({ addEducation, history, auth: {user} }) => {
   const [formData, setFormData] = useState({
     school: '',
     degree: '',
@@ -30,14 +30,13 @@ const AddEducation = ({ addEducation, history }) => {
 
   return (
     <Fragment>
-      <Link className="btn btn-secondary my-1" to="/dashboard">
+      <Link className="btn btn-secondary my-1" to={`/profile/${user._id}`}>
         Go Back
       </Link>
-      <h1 className="large text-primary">Add Your Education</h1>
-      <p className="lead">
+      <h1 className="text-primary">
         <i className="fas fa-code-branch" /> Add any school or bootcamp that you
         have attended
-      </p>
+      </h1>
       <small>* = required field</small>
       <form
         className="form"
@@ -69,7 +68,7 @@ const AddEducation = ({ addEducation, history }) => {
         <div className="form-group">
           <input
             type="text"
-            placeholder="Field of Study"
+            placeholder="* Field of Study"
             name="fieldofstudy"
             value={fieldofstudy}
             onChange={onChange}
@@ -118,7 +117,12 @@ const AddEducation = ({ addEducation, history }) => {
 };
 
 AddEducation.propTypes = {
-  addEducation: PropTypes.func.isRequired
+  addEducation: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
-export default connect(null, { addEducation })(AddEducation);
+const mapStateToProps = (state) => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { addEducation })(AddEducation);

@@ -6,7 +6,7 @@ import Spinner from '../layout/Spinner';
 import ProfileItem from './ProfileItem';
 import { getProfiles } from '../../actions/profile';
 
-const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
+const Profiles = ({ getProfiles, profile: { profiles, loading }, auth: {user} }) => {
   useEffect(() => {
     getProfiles();
   }, [getProfiles]);
@@ -27,10 +27,9 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className="large text-primary">Developers</h1>
-          <p className="lead">
-            <i className="fa fa-users" /> Browse and connect with developers
-          </p>
+          <h1 className="text-primary">
+            <i className="fa fa-users" /> Get in touch with other developers
+          </h1>
           <div className="post-form">
             <form className="form my-1">
               <input
@@ -43,7 +42,15 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
           </div>
           <div className="profiles">
             {profiles.length > 0 ? (
-              profiles.map((profile) => (
+              profiles
+              .filter((profile) => {
+                if (profile.user._id === user._id) {
+                  return false;
+                } else {
+                  return true;
+                }
+              })
+              .map((profile) => (
                 <ProfileItem key={profile._id} profile={profile} />
               ))
             ) : (
@@ -59,10 +66,12 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
 Profiles.propTypes = {
   getProfiles: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { getProfiles })(Profiles);

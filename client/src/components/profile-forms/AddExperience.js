@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addExperience } from '../../actions/profile';
 
-const AddExperience = ({ addExperience, history }) => {
+const AddExperience = ({ addExperience, history, auth: {user} }) => {
   const [formData, setFormData] = useState({
     company: '',
     title: '',
@@ -22,14 +22,13 @@ const AddExperience = ({ addExperience, history }) => {
 
   return (
     <Fragment>
-      <Link className="btn btn-secondary my-1" to="/dashboard">
+      <Link className="btn btn-secondary my-1" to={`/profile/${user._id}`}>
         Go Back
       </Link>
-      <h1 className="large text-primary">Add An Experience</h1>
-      <p className="lead">
+      <h1 className="text-primary">
         <i className="fas fa-code-branch" /> Add any developer/programming
         positions that you have had in the past
-      </p>
+      </h1>
       <small>* = required field</small>
       <form
         className="form"
@@ -112,7 +111,12 @@ const AddExperience = ({ addExperience, history }) => {
 };
 
 AddExperience.propTypes = {
-  addExperience: PropTypes.func.isRequired
+  addExperience: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
-export default connect(null, { addExperience })(AddExperience);
+const mapStateToProps = (state) => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { addExperience })(AddExperience);

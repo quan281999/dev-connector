@@ -7,7 +7,10 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  CLEAR_PROFILE,
+  ACCOUNT_DELETED,
+  PROFILE_ERROR
 } from './types';
 
 // Load User
@@ -77,3 +80,22 @@ export const login = (email, password) => async dispatch => {
 
 // Logout
 export const logout = () => ({ type: LOGOUT });
+
+// Delete account & profile
+export const deleteAccount = () => async (dispatch) => {
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
+    try {
+      await api.delete('/users');
+
+      dispatch({ type: CLEAR_PROFILE });
+      dispatch({ type: ACCOUNT_DELETED });
+
+      SnackbarUtils.success('YOUR ACCOUNT HAS BEEN DELETED');
+    } catch (err) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
+  }
+};

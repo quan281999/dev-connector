@@ -27,6 +27,8 @@ const PostItem = ({
       addLike(_id);
     }
   };
+
+  console.log(_id);
   
   return (
     <div className="post bg-white p-1 my-1">
@@ -50,7 +52,7 @@ const PostItem = ({
               <i className={didLike ? 'fa fa-thumbs-up' : 'fa fa-thumbs-o-up'}/>{' '}
               <span>{likes.length}</span>
             </button>
-            <Link to={`/posts/${_id}`} className="btn btn-primary">
+            <Link to={`/post/${_id}`} className="btn btn-primary">
               Discussion
             </Link>
             {!auth.loading && user === auth.user._id && (

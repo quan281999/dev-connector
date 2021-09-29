@@ -6,7 +6,8 @@ import {
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
-  REMOVE_COMMENT
+  REMOVE_COMMENT,
+  CLEAR_POSTS,
 } from '../actions/types';
 
 const initialState = {
@@ -74,6 +75,12 @@ function postReducer(state = initialState, action) {
           )
         },
         loading: false
+      };
+    case CLEAR_POSTS:
+      return {
+        ...state,
+        post: null,
+        posts: []
       };
     default:
       return state;

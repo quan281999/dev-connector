@@ -8,12 +8,28 @@ import ProfileAbout from './ProfileAbout';
 import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
 import ProfileGithub from './ProfileGithub';
-import { getProfileById } from '../../actions/profile';
+import { getCurrentProfile, getProfileById } from '../../actions/profile';
+import { deleteAccount } from '../../actions/auth';
 
-const Profile = ({ getProfileById, profile: { profile }, match }) => {
+const Profile = ({ getCurrentProfile, getProfileById, profile: { profile }, match, auth }) => {
   useEffect(() => {
-    getProfileById(match.params.id);
-  }, [getProfileById, match.params.id]);
+    if (auth.user._id === match.params.id) {
+      getCurrentProfile();
+    } else {
+      getProfileById(match.params.id);
+    }
+  }, [auth.user._id, getCurrentProfile, getProfileById, match.params.id]);
+
+  if (auth.user._id === match.params.id && !profile) {
+    return (
+      <Fragment>
+        <h1 className="text-primary">You have not yet setup a profile, start create your profile now</h1>
+        <Link to="/create-profile" className="btn btn-primary my-1">
+          Create Profile
+        </Link>
+      </Fragment>
+    );
+  }
 
   return (
     <Fragment>
@@ -21,14 +37,32 @@ const Profile = ({ getProfileById, profile: { profile }, match }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <Link to="/profiles" className="btn btn-secondary">
-            Go Back
-          </Link>
+          {auth.user._id === profile.user._id ? 
+            (
+              <>
+                <Link to='/edit-profile' className="btn btn-primary">
+                  Edit Profile
+                </Link>
+                <button className="btn btn-danger" onClick={() => deleteAccount()}>
+                  Delete Account
+                </button>
+              </>
+            ) : (
+              <Link to="/profiles" className="btn btn-secondary">
+                Go Back
+              </Link>
+            )
+          }
           <div className="profile-grid my-1">
             <ProfileTop profile={profile} />
             <ProfileAbout profile={profile} />
-            <div className="profile-edu bg-white p-2">
-              <h2 className="text-primary">Education</h2>
+            <div className="profile-edu bg-white p-2" style={{position: 'relative'}}>
+              <h2 className="text-primary" style={{position: 'relative'}}>
+                Education
+                <Link to="/add-education" style={{marginLeft: "1rem"}}>
+                  <i className="fas fa-plus-circle" />
+                </Link>
+              </h2>
               {profile.education.length > 0 ? (
                 <Fragment>
                   {profile.education.map((education) => (
@@ -44,7 +78,12 @@ const Profile = ({ getProfileById, profile: { profile }, match }) => {
             </div>
 
             <div className="profile-exp bg-white p-2">
-              <h2 className="text-primary">Experience</h2>
+              <h2 className="text-primary">
+                Experience
+                <Link to="/add-experience" style={{marginLeft: "1rem"}}>
+                  <i className="fas fa-plus-circle" />
+                </Link>
+                </h2>
               {profile.experience.length > 0 ? (
                 <Fragment>
                   {profile.experience.map((experience) => (
@@ -72,10 +111,12 @@ const Profile = ({ getProfileById, profile: { profile }, match }) => {
 Profile.propTypes = {
   getProfileById: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  auth: state.auth
 });
 
-export default connect(mapStateToProps, { getProfileById })(Profile);
+export default connect(mapStateToProps, { getCurrentProfile, getProfileById, deleteAccount })(Profile);

@@ -7,9 +7,9 @@ import {
   PROFILE_ERROR,
   UPDATE_PROFILE,
   CLEAR_PROFILE,
-  ACCOUNT_DELETED,
   GET_REPOS,
-  NO_REPOS
+  NO_REPOS,
+  CLEAR_PROFILES
 } from './types';
 
 // Get current users profile
@@ -91,7 +91,7 @@ export const getGithubRepos = (username) => async (dispatch) => {
 // Create or update profile
 export const createProfile =
   (formData, history, edit = false) =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
     try {
       const res = await api.post('/profile', formData);
 
@@ -101,10 +101,8 @@ export const createProfile =
       });
 
       SnackbarUtils.success(edit ? 'PROFILE UPDATED' : 'PROFILE CREATED');
-
-      if (!edit) {
-        history.push('/dashboard');
-      }
+      
+      history.push(`/profile/${getState().auth.user._id}`);
     } catch (err) {
       const errors = err.response.data.errors;
 
@@ -120,7 +118,7 @@ export const createProfile =
   };
 
 // Add Experience
-export const addExperience = (formData, history) => async (dispatch) => {
+export const addExperience = (formData, history) => async (dispatch, getState) => {
   try {
     const res = await api.put('/profile/experience', formData);
 
@@ -131,7 +129,7 @@ export const addExperience = (formData, history) => async (dispatch) => {
 
     SnackbarUtils.success('EXPERIENCE ADDED');
 
-    history.push('/dashboard');
+    history.push(`/profile/${getState().auth.user._id}`);
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -147,7 +145,7 @@ export const addExperience = (formData, history) => async (dispatch) => {
 };
 
 // Add Education
-export const addEducation = (formData, history) => async (dispatch) => {
+export const addEducation = (formData, history) => async (dispatch, getState) => {
   try {
     const res = await api.put('/profile/education', formData);
 
@@ -158,7 +156,7 @@ export const addEducation = (formData, history) => async (dispatch) => {
 
     SnackbarUtils.success('EDUCATION ADDED');
 
-    history.push('/dashboard');
+    history.push(`/profile/${getState().auth.user._id}`);
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -211,21 +209,8 @@ export const deleteEducation = (id) => async (dispatch) => {
   }
 };
 
-// Delete account & profile
-export const deleteAccount = () => async (dispatch) => {
-  if (window.confirm('Are you sure? This can NOT be undone!')) {
-    try {
-      await api.delete('/users');
+// Clear profiles
+export const clearProfiles = () => ({ type: CLEAR_PROFILES });
 
-      dispatch({ type: CLEAR_PROFILE });
-      dispatch({ type: ACCOUNT_DELETED });
-
-      SnackbarUtils.success('YOUR ACCOUNT HAS BEEN DELETED');
-    } catch (err) {
-      dispatch({
-        type: PROFILE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status }
-      });
-    }
-  }
-};
+// Clear profile
+export const clearProfile = () => ({ type: CLEAR_PROFILE });
