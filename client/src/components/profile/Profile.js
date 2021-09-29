@@ -11,7 +11,7 @@ import ProfileGithub from './ProfileGithub';
 import { getCurrentProfile, getProfileById } from '../../actions/profile';
 import { deleteAccount } from '../../actions/auth';
 
-const Profile = ({ getCurrentProfile, getProfileById, profile: { profile }, match, auth }) => {
+const Profile = ({ getCurrentProfile, getProfileById, profile: { profile, loading }, match, auth }) => {
   useEffect(() => {
     if (auth.user._id === match.params.id) {
       getCurrentProfile();
@@ -22,12 +22,18 @@ const Profile = ({ getCurrentProfile, getProfileById, profile: { profile }, matc
 
   if (auth.user._id === match.params.id && !profile) {
     return (
-      <Fragment>
-        <h1 className="text-primary">You have not yet setup a profile, start create your profile now</h1>
-        <Link to="/create-profile" className="btn btn-primary my-1">
-          Create Profile
-        </Link>
-      </Fragment>
+      <>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <>
+            <h1 className="text-primary">You have not yet setup a profile, start create your profile now</h1>
+            <Link to="/create-profile" className="btn btn-primary my-1">
+              Create Profile
+            </Link>
+          </>
+        )}
+      </>
     );
   }
 

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
@@ -19,16 +19,19 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, clearProfile, clearPr
     logout();
   }
 
+  const route = useLocation().pathname;
+  console.log(route);
+
   const authLinks = (
     <ul>
       <li>
-        <Link to="/home">Home</Link>
+        <Link to="/home" className={route === '/home' ? 'active' : null}>Home</Link>
       </li>
       <li>
-        <Link to="/profiles">Developers</Link>
+        <Link to="/profiles" className={route === '/profiles' ? 'active' : null}>Developers</Link>
       </li>
       <li>
-        <Link to={`/profile/${id}`}>
+        <Link to={`/profile/${id}`} className={route === `/profile/${id}` ? 'active' : null}>
           <span className="hide-sm">Profile</span>
         </Link>
       </li>

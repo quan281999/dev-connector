@@ -8,6 +8,7 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT,
   CLEAR_POSTS,
+  POST_LOADING
 } from '../actions/types';
 
 const initialState = {
@@ -21,6 +22,11 @@ function postReducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case POST_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
     case GET_POSTS:
       return {
         ...state,

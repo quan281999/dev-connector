@@ -9,12 +9,17 @@ import {
   GET_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
-  CLEAR_POSTS
+  CLEAR_POSTS,
+  POST_LOADING
 } from './types';
 
 // Get posts
 export const getPosts = () => async dispatch => {
   try {
+    dispatch({
+      type: POST_LOADING
+    })
+
     const res = await api.get('/posts');
 
     dispatch({
@@ -32,6 +37,10 @@ export const getPosts = () => async dispatch => {
 // Add like
 export const addLike = id => async dispatch => {
   try {
+    dispatch({
+      type: POST_LOADING
+    })
+
     const res = await api.put(`/posts/like/${id}`);
 
     dispatch({
@@ -49,6 +58,10 @@ export const addLike = id => async dispatch => {
 // Remove like
 export const removeLike = id => async dispatch => {
   try {
+    dispatch({
+      type: POST_LOADING
+    })
+
     const res = await api.put(`/posts/unlike/${id}`);
 
     dispatch({
@@ -66,6 +79,10 @@ export const removeLike = id => async dispatch => {
 // Delete post
 export const deletePost = id => async dispatch => {
   try {
+    dispatch({
+      type: POST_LOADING
+    })
+
     await api.delete(`/posts/${id}`);
 
     dispatch({
@@ -86,6 +103,10 @@ export const deletePost = id => async dispatch => {
 // Add post
 export const addPost = formData => async dispatch => {
   try {
+    dispatch({
+      type: POST_LOADING
+    })
+
     const res = await api.post('/posts', formData);
 
     dispatch({
@@ -106,6 +127,10 @@ export const addPost = formData => async dispatch => {
 // Get post
 export const getPost = id => async dispatch => {
   try {
+    dispatch({
+      type: POST_LOADING
+    })
+
     const res = await api.get(`/posts/${id}`);
 
     dispatch({
@@ -123,6 +148,10 @@ export const getPost = id => async dispatch => {
 // Add comment
 export const addComment = (postId, formData) => async dispatch => {
   try {
+    // dispatch({
+    //   type: POST_LOADING
+    // })
+
     const res = await api.post(`/posts/comment/${postId}`, formData);
 
     dispatch({
@@ -143,6 +172,10 @@ export const addComment = (postId, formData) => async dispatch => {
 // Delete comment
 export const deleteComment = (postId, commentId) => async dispatch => {
   try {
+    // dispatch({
+    //   type: POST_LOADING
+    // })
+
     await api.delete(`/posts/comment/${postId}/${commentId}`);
 
     dispatch({

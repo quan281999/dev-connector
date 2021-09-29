@@ -9,12 +9,17 @@ import {
   CLEAR_PROFILE,
   GET_REPOS,
   NO_REPOS,
-  CLEAR_PROFILES
+  CLEAR_PROFILES,
+  PROFILE_LOADING
 } from './types';
 
 // Get current users profile
 export const getCurrentProfile = () => async (dispatch) => {
   try {
+    dispatch({
+      type: PROFILE_LOADING
+    })
+
     const res = await api.get('/profile/me');
 
     dispatch({
@@ -33,6 +38,10 @@ export const getCurrentProfile = () => async (dispatch) => {
 export const getProfiles =
   (search = null) =>
   async (dispatch) => {
+    dispatch({
+      type: PROFILE_LOADING
+    })
+
     dispatch({ type: CLEAR_PROFILE });
 
     try {
@@ -58,6 +67,10 @@ export const getProfiles =
 // Get profile by ID
 export const getProfileById = (userId) => async (dispatch) => {
   try {
+    dispatch({
+      type: PROFILE_LOADING
+    })
+
     const res = await api.get(`/profile/user/${userId}`);
 
     dispatch({
@@ -75,6 +88,10 @@ export const getProfileById = (userId) => async (dispatch) => {
 // Get Github repos
 export const getGithubRepos = (username) => async (dispatch) => {
   try {
+    dispatch({
+      type: PROFILE_LOADING
+    })
+
     const res = await api.get(`/profile/github/${username}`);
 
     dispatch({
@@ -93,6 +110,10 @@ export const createProfile =
   (formData, history, edit = false) =>
   async (dispatch, getState) => {
     try {
+      dispatch({
+        type: PROFILE_LOADING
+      })
+      
       const res = await api.post('/profile', formData);
 
       dispatch({
@@ -120,6 +141,10 @@ export const createProfile =
 // Add Experience
 export const addExperience = (formData, history) => async (dispatch, getState) => {
   try {
+    dispatch({
+      type: PROFILE_LOADING
+    })
+
     const res = await api.put('/profile/experience', formData);
 
     dispatch({
@@ -147,6 +172,10 @@ export const addExperience = (formData, history) => async (dispatch, getState) =
 // Add Education
 export const addEducation = (formData, history) => async (dispatch, getState) => {
   try {
+    dispatch({
+      type: PROFILE_LOADING
+    })
+
     const res = await api.put('/profile/education', formData);
 
     dispatch({
@@ -174,6 +203,10 @@ export const addEducation = (formData, history) => async (dispatch, getState) =>
 // Delete experience
 export const deleteExperience = (id) => async (dispatch) => {
   try {
+    dispatch({
+      type: PROFILE_LOADING
+    })
+
     const res = await api.delete(`/profile/experience/${id}`);
 
     dispatch({
@@ -193,6 +226,10 @@ export const deleteExperience = (id) => async (dispatch) => {
 // Delete education
 export const deleteEducation = (id) => async (dispatch) => {
   try {
+    dispatch({
+      type: PROFILE_LOADING
+    })
+    
     const res = await api.delete(`/profile/education/${id}`);
 
     dispatch({

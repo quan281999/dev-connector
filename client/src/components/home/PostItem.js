@@ -27,8 +27,6 @@ const PostItem = ({
       addLike(_id);
     }
   };
-
-  console.log(_id);
   
   return (
     <div className="post bg-white p-1 my-1">
