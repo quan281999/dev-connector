@@ -20,8 +20,6 @@ const Navbar = ({ auth: { isAuthenticated, user }, logout, clearProfile, clearPr
   }
 
   const route = useLocation().pathname;
-  console.log(route);
-
   const authLinks = (
     <ul>
       <li>
