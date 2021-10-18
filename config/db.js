@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('config');
-const db = config.get('mongoURI');
+// const db = config.get('mongoURI');
+const db = 'mongodb://mongodb-0.mongo-service:27017,mongodb-1.mongo-service:27017,mongodb-2.mongo-service:27017/dev-connector?replicatSet=rs0';
 
 const connectDB = async () => {
   try {
