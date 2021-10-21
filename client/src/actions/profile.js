@@ -4,9 +4,9 @@ import SnackbarUtils from '../utils/snackbar';
 import {
   GET_PROFILE,
   GET_PROFILES,
-  PROFILE_ERROR,
   UPDATE_PROFILE,
   CLEAR_PROFILE,
+  PROFILE_ERROR,
   GET_REPOS,
   NO_REPOS,
   CLEAR_PROFILES,

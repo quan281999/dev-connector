@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
@@ -21,6 +21,7 @@ const initialState = {
 
 const ProfileForm = ({
   profile: { profile, loading },
+  auth,
   createProfile,
   getCurrentProfile,
   history
@@ -29,8 +30,10 @@ const ProfileForm = ({
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
+  const route = useLocation().pathname;
+
   useEffect(() => {
-    if (!profile) getCurrentProfile();
+    if (!profile && route === '/edit-profile') getCurrentProfile();
     if (!loading && profile) {
       const profileData = { ...initialState };
       for (const key in profile) {
@@ -43,7 +46,7 @@ const ProfileForm = ({
         profileData.skills = profileData.skills.join(', ');
       setFormData(profileData);
     }
-  }, [loading, getCurrentProfile, profile]);
+  }, [loading, getCurrentProfile, profile, route]);
 
   const {
     company,
@@ -70,7 +73,7 @@ const ProfileForm = ({
 
   return (
     <Fragment>
-      <Link className="btn btn-secondary my-1" to={`/profile/${profile.user._id}`}>
+      <Link className="btn btn-secondary my-1" to={`/profile/${auth.user._id}`}>
         Go Back
       </Link>
       <h1 className="text-primary">
@@ -248,7 +251,8 @@ ProfileForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile
+  profile: state.profile,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { createProfile, getCurrentProfile })(

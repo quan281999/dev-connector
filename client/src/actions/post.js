@@ -3,10 +3,10 @@ import SnackbarUtils from '../utils/snackbar';
 import {
   GET_POSTS,
   POST_ERROR,
-  UPDATE_LIKES,
-  DELETE_POST,
   ADD_POST,
   GET_POST,
+  DELETE_POST,
+  UPDATE_LIKES,
   ADD_COMMENT,
   REMOVE_COMMENT,
   CLEAR_POSTS,
